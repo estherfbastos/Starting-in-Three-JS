@@ -1,0 +1,12 @@
+# IntelliJ / WebStorm
+.idea/
+
+# Node.js
+node_modules/
+
+# Logs
+*.log
+
+# Arquivos do sistema
+.DS_Store
+Thumbs.db
