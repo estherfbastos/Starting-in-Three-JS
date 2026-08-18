@@ -1,216 +1,216 @@
-// Importa tudo que está disponível na biblioteca Three.js.
-// O "THREE" será o objeto que vamos usar para acessar classes e funcionalidades
-// como Scene, Camera, Mesh, Light, Renderer, Geometry, Material etc.
+// Imports everything available in the Three.js library.
+// "THREE" will be the object we use to access classes and functionalities
+// such as Scene, Camera, Mesh, Light, Renderer, Geometry, Material, etc.
 import * as THREE from 'three';
 
 
 // ============================================================
-// 1. CRIAÇÃO DA CENA
+// 1. SCENE CREATION
 // ============================================================
 
-// Cria uma nova cena 3D.
-// A Scene funciona como um "container" onde colocaremos todos os objetos
-// que queremos visualizar: cubo, luzes, modelos 3D, câmera etc.
+// Creates a new 3D scene.
+// The Scene works as a "container" where we will place all the objects
+// that we want to visualize: cube, lights, 3D models, camera, etc.
 const scene = new THREE.Scene();
 
-// Define a cor de fundo da cena.
-// Aqui estamos usando a cor #F0F0F0, que é um cinza bem claro.
+// Defines the background color of the scene.
+// Here we are using the color #F0F0F0, which is a very light gray.
 scene.background = new THREE.Color('#F0F0F0');
 
 
 // ============================================================
-// 2. CRIAÇÃO E CONFIGURAÇÃO DA CÂMERA
+// 2. CAMERA CREATION AND CONFIGURATION
 // ============================================================
 
-// Cria uma câmera do tipo PerspectiveCamera.
+// Creates a camera of type PerspectiveCamera.
 //
-// Os parâmetros são:
+// The parameters are:
 //
-// 1º parâmetro: 75
-//    É o campo de visão (FOV - Field of View).
-//    Quanto maior o valor, maior será a área da cena que a câmera consegue
-//    enxergar. 75 graus é um valor comum para uma câmera 3D.
+// 1st parameter: 75
+//    This is the field of view (FOV - Field of View).
+//    The higher the value, the larger the area of the scene the camera can
+//    see. 75 degrees is a common value for a 3D camera.
 //
-// 2º parâmetro: window.innerWidth / window.innerHeight
-//    Representa a proporção (aspect ratio) da tela.
-//    Estamos dividindo a largura pela altura da janela para evitar que
-//    os objetos apareçam deformados.
+// 2nd parameter: window.innerWidth / window.innerHeight
+//    Represents the screen's aspect ratio.
+//    We divide the width by the height of the window to prevent
+//    objects from appearing distorted.
 //
-// 3º parâmetro: 0.1
-//    É a distância mínima que a câmera consegue enxergar.
-//    Objetos mais próximos que 0.1 unidades não serão renderizados.
+// 3rd parameter: 0.1
+//    This is the minimum distance the camera can see.
+//    Objects closer than 0.1 units will not be rendered.
 //
-// 4º parâmetro: 1000
-//    É a distância máxima que a câmera consegue enxergar.
-//    Objetos que estiverem além de 1000 unidades não serão renderizados.
+// 4th parameter: 1000
+//    This is the maximum distance the camera can see.
+//    Objects farther than 1000 units will not be rendered.
 const camera = new THREE.PerspectiveCamera(
-  75,
-  window.innerWidth / window.innerHeight,
-  0.1,
-  1000
+    75,
+    window.innerWidth / window.innerHeight,
+    0.1,
+    1000
 );
 
-// Posiciona a câmera no eixo Z.
+// Positions the camera on the Z axis.
 //
-// Em Three.js, os eixos funcionam assim:
-// X → esquerda / direita
-// Y → baixo / cima
-// Z → frente / trás
+// In Three.js, the axes work like this:
+// X → left / right
+// Y → down / up
+// Z → front / back
 //
-// O cubo será criado inicialmente próximo ao centro da cena,
-// então colocamos a câmera 5 unidades para trás no eixo Z
-// para conseguir enxergá-lo.
+// The cube will initially be created near the center of the scene,
+// so we place the camera 5 units backward along the Z axis
+// to be able to see it.
 camera.position.z = 5;
 
 
 // ============================================================
-// 3. CRIAÇÃO E ADIÇÃO DO CUBO
+// 3. CUBE CREATION AND ADDITION
 // ============================================================
 
-// Cria a geometria do cubo.
+// Creates the cube's geometry.
 //
-// BoxGeometry é responsável pela FORMA/ESTRUTURA do objeto.
-// Neste caso, é um cubo.
+// BoxGeometry is responsible for the object's SHAPE/STRUCTURE.
+// In this case, it is a cube.
 //
-// Como nenhum tamanho foi informado, o Three.js utiliza os valores
-// padrão para largura, altura e profundidade.
+// Since no size was specified, Three.js uses the default values
+// for width, height, and depth.
 const geometry = new THREE.BoxGeometry();
 
 
-// Cria o material que será aplicado à geometria.
+// Creates the material that will be applied to the geometry.
 //
-// MeshLambertMaterial é um material que reage à iluminação da cena.
-// Isso significa que a aparência do cubo será influenciada pelas luzes
-// que adicionarmos posteriormente.
+// MeshLambertMaterial is a material that reacts to the scene's lighting.
+// This means that the cube's appearance will be influenced by the lights
+// that we add later.
 const material = new THREE.MeshLambertMaterial({
 
-  // Define a cor principal do cubo.
-  // Aqui usamos um tom de amarelo.
-  color: '#f8e911',
+    // Defines the cube's main color.
+    // Here we use a shade of yellow.
+    color: '#f8e911',
 
-  // Define uma cor emissiva.
-  //
-  // A propriedade emissive simula uma espécie de "brilho próprio"
-// do material. Ela não substitui a iluminação da cena, mas adiciona
-  // uma contribuição de cor ao objeto.
-  emissive: '#d37adf'
+    // Defines an emissive color.
+    //
+    // The emissive property simulates a kind of "self-glow"
+    // of the material. It does not replace the scene's lighting, but adds
+    // a color contribution to the object.
+    emissive: '#d37adf'
 });
 
 
-// Cria o objeto 3D (Mesh).
+// Creates the 3D object (Mesh).
 //
-// Um Mesh é formado basicamente pela combinação de:
+// A Mesh is basically formed by combining:
 //
 // GEOMETRY + MATERIAL = MESH
 //
-// geometry → define o formato do objeto
-// material → define sua aparência
+// geometry → defines the object's shape
+// material → defines its appearance
 //
-// Então aqui estamos juntando o cubo que criamos com o material.
+// So here we are combining the cube we created with the material.
 const cube = new THREE.Mesh(geometry, material);
 
 
-// Adiciona o cubo dentro da cena.
+// Adds the cube to the scene.
 //
-// Sem essa linha, o cubo existiria na memória, mas não faria parte
-// da cena que será renderizada.
+// Without this line, the cube would exist in memory, but would not be part
+// of the scene that will be rendered.
 scene.add(cube);
 
 
 // ============================================================
-// 4. ADIÇÃO DA ILUMINAÇÃO
+// 4. ADDING LIGHTING
 // ============================================================
 
-// Cria uma luz direcional.
+// Creates a directional light.
 //
-// DirectionalLight simula uma luz que vem de uma determinada direção,
-// como a luz do Sol.
+// DirectionalLight simulates a light coming from a specific direction,
+// such as sunlight.
 //
-// O primeiro parâmetro é a cor da luz:
-// 0x9CDBA6 → um tom esverdeado.
+// The first parameter is the light's color:
+// 0x9CDBA6 → a greenish tone.
 //
-// O segundo parâmetro é a intensidade:
-// 10 → intensidade relativamente forte.
+// The second parameter is the intensity:
+// 10 → relatively strong intensity.
 const light = new THREE.DirectionalLight(0x9CDBA6, 10);
 
 
-// Define a posição da luz.
+// Defines the light's position.
 //
 // X = 1
 // Y = 1
 // Z = 1
 //
-// Isso coloca a luz em uma posição diagonal em relação ao cubo.
+// This places the light in a diagonal position relative to the cube.
 //
-// É importante lembrar que, no caso da DirectionalLight,
-// a posição indica a direção de onde a luz está vindo.
+// It is important to remember that, in the case of DirectionalLight,
+// the position indicates the direction from which the light is coming.
 light.position.set(1, 1, 1);
 
 
-// Adiciona a luz à cena.
+// Adds the light to the scene.
 //
-// Assim como aconteceu com o cubo, a luz precisa fazer parte da cena
-// para participar do processo de renderização.
+// Just like with the cube, the light needs to be part of the scene
+// to participate in the rendering process.
 scene.add(light);
 
 
 // ============================================================
-// 5. CONFIGURAÇÃO DO RENDERIZADOR
+// 5. RENDERER CONFIGURATION
 // ============================================================
 
-// Cria o Renderer.
+// Creates the Renderer.
 //
-// O WebGLRenderer é responsável por transformar tudo que configuramos
-// na cena 3D em uma imagem que o navegador consegue mostrar na tela.
+// The WebGLRenderer is responsible for transforming everything we configured
+// in the 3D scene into an image that the browser can display on the screen.
 //
-// Em outras palavras:
+// In other words:
 //
 // Scene + Camera + Lights + Objects
 //                ↓
 //            Renderer
 //                ↓
-//           Imagem na tela
+//          Image on screen
 const renderer = new THREE.WebGLRenderer();
 
 
-// Define o tamanho da área de renderização.
+// Defines the size of the rendering area.
 //
-// window.innerWidth  → largura atual da janela do navegador
-// window.innerHeight → altura atual da janela do navegador
+// window.innerWidth  → current width of the browser window
+// window.innerHeight → current height of the browser window
 //
-// Dessa forma, o canvas ocupará toda a área disponível da janela.
+// This way, the canvas will occupy the entire available area of the window.
 renderer.setSize(window.innerWidth, window.innerHeight);
 
 
-// Adiciona o canvas criado pelo Three.js dentro do HTML.
+// Adds the canvas created by Three.js to the HTML.
 //
-// renderer.domElement é o elemento <canvas> que o Three.js criou.
+// renderer.domElement is the <canvas> element that Three.js created.
 //
-// O document.body representa o <body> da página.
+// document.body represents the page's <body>.
 //
-// Portanto, esta linha basicamente coloca o canvas 3D dentro do body.
+// Therefore, this line basically places the 3D canvas inside the body.
 document.body.appendChild(renderer.domElement);
 
 
 // ============================================================
-// 6. ANIMAÇÃO DA CENA
+// 6. SCENE ANIMATION
 // ============================================================
 
-// Cria uma função responsável por controlar a animação.
+// Creates a function responsible for controlling the animation.
 //
-// Essa função será executada repetidamente para criar a sensação
-// de movimento contínuo.
+// This function will be executed repeatedly to create the sensation
+// of continuous movement.
 function animate(){
 
-    // Solicita ao navegador que execute a função novamente
-    // no próximo quadro da animação.
+    // Requests the browser to execute the function again
+    // on the next animation frame.
     //
-    // requestAnimationFrame é preferível a simplesmente utilizar
-    // setInterval/setTimeout para animações, porque o navegador
-    // consegue sincronizar melhor a renderização com a taxa de
-    // atualização da tela.
+    // requestAnimationFrame is preferable to simply using
+    // setInterval/setTimeout for animations because the browser
+    // can synchronize rendering more effectively with the screen's
+    // refresh rate.
     //
-    // Aqui acontece uma espécie de loop:
+    // This creates a kind of loop:
     //
     // animate()
     //    ↓
@@ -220,47 +220,47 @@ function animate(){
     //    ↓
     // requestAnimationFrame(animate)
     //    ↓
-    // ... e assim por diante.
+    // ... and so on.
     requestAnimationFrame(animate);
 
 
-    // Aumenta a rotação do cubo no eixo X.
+    // Increases the cube's rotation around the X axis.
     //
-    // rotation.x representa a rotação do objeto em torno do eixo X.
+    // rotation.x represents the object's rotation around the X axis.
     //
-    // 0.01 é uma pequena quantidade adicionada a cada quadro.
-    // Como isso acontece muitas vezes por segundo, o cubo parece
-    // girar continuamente.
+    // 0.01 is a small amount added on each frame.
+    // Since this happens many times per second, the cube appears
+    // to rotate continuously.
     cube.rotation.x += 0.01;
 
 
-    // Aumenta a rotação do cubo no eixo Y.
+    // Increases the cube's rotation around the Y axis.
     //
-    // Assim como no eixo X, adicionamos 0.01 a cada quadro.
+    // Just like with the X axis, we add 0.01 on each frame.
     //
-    // Como estamos alterando X e Y ao mesmo tempo, o cubo fará
-    // uma rotação combinada, dando uma aparência mais tridimensional.
+    // Since we are changing X and Y at the same time, the cube will
+    // perform a combined rotation, creating a more three-dimensional appearance.
     cube.rotation.y += 0.01;
 
 
-    // Renderiza a cena.
+    // Renders the scene.
     //
-    // O primeiro argumento é a cena que queremos desenhar.
-    // O segundo argumento é a câmera que será usada para enxergar
-    // essa cena.
+    // The first argument is the scene we want to draw.
+    // The second argument is the camera that will be used to view
+    // that scene.
     //
-    // Basicamente:
+    // Basically:
     //
-    // "Three.js, desenhe a scene usando a visão da camera."
+    // "Three.js, draw the scene using the camera's view."
     renderer.render(scene, camera);
 }
 
 
-// Inicia o loop de animação.
+// Starts the animation loop.
 //
-// Sem essa chamada, a função animate() teria sido apenas criada,
-// mas nunca seria executada.
+// Without this call, the animate() function would have only been created,
+// but would never be executed.
 //
-// A partir daqui, o requestAnimationFrame começa a chamar
-// animate() continuamente e o cubo começa a girar.
+// From this point on, requestAnimationFrame starts calling
+// animate() continuously and the cube starts rotating.
 animate();
