@@ -74,7 +74,7 @@ camera.position.z = 5;
 //
 // Since no size was specified, Three.js uses the default values
 // for width, height, and depth.
-const geometry = new THREE.BoxGeometry();
+const geometry = new THREE.SphereGeometry();
 
 
 // Creates the material that will be applied to the geometry.
